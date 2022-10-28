@@ -1,0 +1,27 @@
+{
+  "name": "create-codix-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "EvioShen",
+  "main": "index.js",
+  "bin": {
+    "create-codix-app": "index.js",
+    "cca": "index.js"
+  },
+  "files": [
+    "index.js",
+    "template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codixjs/create-codix-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codixjs/create-codix-app/issues"
+  },
+  "homepage": "https://github.com/codixjs/create-codix-app/tree/master/#readme",
+  "dependencies": {
+    "fs-extra": "^9.0.0",
+    "minimist": "^1.2.5"
+  }
+}
