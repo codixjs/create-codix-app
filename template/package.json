@@ -3,15 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "npm run dev:spa",
-    "dev:spa": "vite --host",
+    "dev": "vite --host",
     "dev:ssr": "SSR=true vite --host",
     "build": "rm -rf dist && npm run build:spa && npm run build:ssr",
     "build:spa": "KIND=spa vite build",
     "build:client": "KIND=client vite build",
     "build:server": "KIND=server vite build",
     "build:ssr": "npm run build:client && npm run build:server",
-    "start": "node server.js"
+    "start": "coka start 3000"
   },
   "dependencies": {
     "@codixjs/codix": "^1.0.0",
@@ -41,12 +40,13 @@
       "server": "./src/entries/server.tsx"
     },
     "skips": [
-      "/@react-refresh",
-      "/@id/vite/modulepreload-polyfill",
-      "/@vite/client"
+      "/demo//@react-refresh",
+      "/demo/@id/vite/modulepreload-polyfill",
+      "/demo/@vite/client"
     ],
     "rewrites": {
       "/index.html": "/"
     }
-  }
+  },
+  "manifest": {}
 }

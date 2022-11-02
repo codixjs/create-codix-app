@@ -6,7 +6,7 @@ export default function(app: Application<HistoryMode>) {
     client.initialize(window.INITIALIZE_STATE);
   }
   app.use(ClientProvider, { client });
-  const welcome = app.bind('/', ...withImport(() => import('./pages/index/index'), { fallback: 'loading...' }));
+  const welcome = app.bind('/', ...withImport(() => import('./index/index'), { fallback: 'loading...' }));
   return {
     welcome,
     client,

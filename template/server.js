@@ -10,17 +10,18 @@ const port = 8080;
   const { getAssets } = await import('@codixjs/vite');
   const render = await import('./dist/ssr/server/server.mjs');
   return {
-    assets: await getAssets('src/entries/client.tsx', clientDictionary),
+    assets: await getAssets(render.default.prefix, 'src/entries/client.tsx', clientDictionary),
     runner: render.default.middleware,
+    prefix: render.default.prefix,
   }
-})().then(({assets, runner}) => {
+})().then(({ assets, runner, prefix }) => {
   const app = express();
-  app.use(serveStatic(clientDictionary));
+  app.use(prefix, serveStatic(clientDictionary));
   app.use(createProxyMiddleware('/api', {
-    target: 'https://api.china.cn',
+    target: 'http://example.china.cn',
     changeOrigin: true,
   }))
-  app.all('*', (req, res, next) => {
+  app.get(prefix + '*', (req, res, next) => {
     req.HTMLAssets = assets;
     req.HTMLStates = {};
     runner(req, res, next);
