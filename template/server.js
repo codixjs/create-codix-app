@@ -18,13 +18,15 @@ const port = 8080;
   const app = express();
   app.use(prefix, serveStatic(clientDictionary));
   app.use(createProxyMiddleware('/api', {
-    target: 'http://example.china.cn',
+    target: 'http://127.0.0.1:8000',
     changeOrigin: true,
   }))
   app.get(prefix + '*', (req, res, next) => {
     req.HTMLAssets = assets;
     req.HTMLStates = {};
-    runner(req, res, next);
+    runner(req, res, matched => {
+      if (!matched) return next();
+    });
   })
   app.listen(port, err => {
     if (err) throw err;
