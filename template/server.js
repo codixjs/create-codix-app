@@ -24,9 +24,24 @@ const port = 8080;
   app.get(prefix + '*', (req, res, next) => {
     req.HTMLAssets = assets;
     req.HTMLStates = {};
-    runner(req, res, matched => {
-      if (!matched) return next();
-    });
+    const [matched, stream] = runner(req);
+    if (!matched) return next();
+    res.statusCode = 200;
+    res.setHeader("Content-type", "text/html; charset=utf-8");
+    stream.on('error', e => {
+      switch (e.code) {
+        case 301:
+        case 302:
+          res.setHeader('Location', e.url);
+          res.setHeader('Content-type', 'text/html; charset=utf-8');
+          res.statusCode = e.code;
+          res.end(e.stack);
+          break;
+        default:
+          res.statusCode = typeof e.code === 'number' ? e.code : 500;
+          res.end(e.stack);
+      }
+    }).pipe(res);
   })
   app.listen(port, err => {
     if (err) throw err;
@@ -35,4 +50,3 @@ const port = 8080;
 }).catch(e => {
   console.log('发生错误，无法启动服务器:', e.message);
 })
-
